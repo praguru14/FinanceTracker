@@ -47,8 +47,7 @@ public class TransactionController {
 
     @GetMapping
     public Page<Transaction> getTransactions(
-            @RequestParam(required = false) String fromDate,
-            @RequestParam(required = false) String toDate,
+            @RequestParam(required = false) String fromDate,@RequestParam(required = false) String toDate,
             @RequestParam(required = false) String toUpi,
             @RequestParam(required = false, defaultValue = "false") boolean toUpiExact,
             @RequestParam(required = false) String payeeName,
@@ -83,8 +82,7 @@ public class TransactionController {
         return LocalDate.parse(dateStr, DateTimeFormatter.ISO_DATE);
     }
 
-    // ✅ Get transactions for a single day
-    @GetMapping("/day")
+    @GetMapping("/days")
     public Page<Transaction> getForDay(@RequestParam String date,
                                        @RequestParam(defaultValue = "0") int page,
                                        @RequestParam(defaultValue = "20") int size) {
@@ -96,7 +94,6 @@ public class TransactionController {
         );
     }
 
-    // ✅ Get transactions for a custom range
     @GetMapping("/range")
     public Page<Transaction> getForRange(@RequestParam String from,
                                          @RequestParam String to,
@@ -111,7 +108,6 @@ public class TransactionController {
         );
     }
 
-    // ✅ Get transactions for a month
     @GetMapping("/month")
     public Page<Transaction> getForMonth(@RequestParam int year,
                                          @RequestParam int month,
@@ -126,7 +122,6 @@ public class TransactionController {
         );
     }
 
-    // ✅ Get transactions for last 3 months
     @GetMapping("/last3months")
     public Page<Transaction> getForLast3Months(@RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "20") int size) {
@@ -139,7 +134,6 @@ public class TransactionController {
         );
     }
 
-    // ✅ Get transactions for last 6 months
     @GetMapping("/last6months")
     public Page<Transaction> getForLast6Months(@RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "20") int size) {
@@ -152,7 +146,6 @@ public class TransactionController {
         );
     }
 
-    // ✅ Get transactions for year range (Jan to Dec)
     @GetMapping("/year")
     public Page<Transaction> getForYear(@RequestParam int year,
                                         @RequestParam(defaultValue = "0") int page,
@@ -166,7 +159,6 @@ public class TransactionController {
         );
     }
 
-    // ✅ Get transactions for year-to-year
     @GetMapping("/year-range")
     public Page<Transaction> getForYearRange(@RequestParam int fromYear,
                                              @RequestParam int toYear,
@@ -210,6 +202,11 @@ public class TransactionController {
     @GetMapping("/total/by-dates")
     public Map<LocalDate, BigDecimal> getTotalByDates(@RequestParam String dates) {
         return transactionService.getTotalByDates(dates);
+    }
+    @GetMapping("/day")
+    public List<Transaction> getTransactionsForDay(@RequestParam String date) {
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
+        return transactionService.getTransactionsForDay(localDate);
     }
 
 

@@ -315,7 +315,9 @@ public class ImapTransactionService {
         return repository.findAll(spec, pageable);
     }
 
-
+    public List<Transaction> getTransactionsForDay(LocalDate date) {
+        return repository.findByDate(date);
+    }
     public Optional<Long> getSum(){
         return repository.getSum();
     }

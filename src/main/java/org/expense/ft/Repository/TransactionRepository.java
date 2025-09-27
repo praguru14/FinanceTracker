@@ -45,4 +45,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>,
             "GROUP BY t.date")
     List<Object[]> getTotalSpentByDates(@Param("dates") List<LocalDate> dates);
 
+    List<Transaction> findByDate(LocalDate date);
 }
