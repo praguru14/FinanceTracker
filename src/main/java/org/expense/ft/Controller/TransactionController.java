@@ -2,7 +2,10 @@ package org.expense.ft.Controller;
 
 import org.expense.ft.Entity.Transaction;
 import org.expense.ft.Service.ImapTransactionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.jdbc.core.ColumnMapRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +20,8 @@ import java.util.Map;
 public class TransactionController {
 
     private final ImapTransactionService transactionService;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     public TransactionController(ImapTransactionService transactionService) {
         this.transactionService = transactionService;
@@ -92,6 +97,17 @@ public class TransactionController {
                 null, null, null, null, page, size,
                 "date", "desc"
         );
+    }
+
+
+    @PostMapping("/run")
+    public List<Map<String, Object>> runQuery(@RequestBody Map<String, String> request) {
+        String sql = request.get("query");
+        try {
+            return jdbcTemplate.query(sql, new ColumnMapRowMapper());
+        } catch (Exception e) {
+            throw new RuntimeException("Error executing query: " + e.getMessage());
+        }
     }
 
     @GetMapping("/range")
