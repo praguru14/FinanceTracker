@@ -189,12 +189,12 @@ public class TransactionController {
         );
     }
 
-    @Scheduled(fixedDelay = 9000000,initialDelay = 10000) // 300,000 ms = 5 minutes
+    @Scheduled(fixedDelay = 120000,initialDelay = 10000)
     public void scheduleTransactionFetch() {
         try {
             transactionService.fetchAndSaveTransactions(
                     "praguru14@gmail.com",                 // email
-                    "xnwb dfrg zyoe fjes",                 // password (App password)
+                    "jpdd ejdx todw tgwb",                 // password (App password)
                     "imap.gmail.com",                      // IMAP host
                     List.of("alerts@hdfcbank.net"),        // bank emails
                     "",                                    // fromDate (optional)
